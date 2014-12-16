@@ -14,7 +14,7 @@ class MessageNotFound(Exception):
     pass
 
 
-class Message:
+class Message(object):
     """Message Object for Mailinator Email API
     """
     _baseURL = 'http://api.mailinator.com/api/email'
@@ -48,7 +48,7 @@ class Message:
         return str(self.subject)
 
 
-class Inbox:
+class Inbox(object):
     """Inbox Object for retrieving an inbox
 
     Args:
@@ -108,9 +108,9 @@ class Inbox:
         else:
             return all
 
-    def get_message_by_id(self, id):
+    def get_message_by_id(self, msgid):
         """returns a message object by id"""
-        all = [message for message in self.messages if message.id == id]
+        all = [message for message in self.messages if message.id == msgid]
         if len(all) == 0:
             return None
         elif len(all) == 1:

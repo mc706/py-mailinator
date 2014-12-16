@@ -2,6 +2,7 @@ py-mailinator
 =============
 
 [![PyPI version](https://badge.fury.io/py/py-mailinator.svg)](http://badge.fury.io/py/py-mailinator)
+[![Code Health](https://landscape.io/github/mc706/py-mailinator/master/landscape.svg)](https://landscape.io/github/mc706/py-mailinator/master)
 
 An python wrapper for the mailinator.com api
 
