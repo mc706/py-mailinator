@@ -2,44 +2,44 @@ from fabric.api import local
 
 
 def bump_patch():
-    with open('py_mailinator/_version.py', 'r') as f:
+    with open('pymailinator/_version.py', 'r') as f:
         original = f.read()
         version = original.split('=')[1].strip('\" \n\'')
         major, minor, patch = version.split('.')
         patch = int(patch) + 1
-    with open('py_mailinator/_version.py', 'w') as f:
+    with open('pymailinator/_version.py', 'w') as f:
         f.write('__version__ = "%s.%s.%s"' % (major, minor, patch))
-    local('git add py_mailinator/_version.py')
+    local('git add pymailinator/_version.py')
     local('git commit -m "updated version to %s.%s.%s"'% (major, minor, patch))
     local('git push')
 
 
 def bump_minor():
-    with open('py_mailinator/_version.py', 'r') as f:
+    with open('pymailinator/_version.py', 'r') as f:
         original = f.read()
         version = original.split('=')[1].strip('\" \n\'')
         major, minor, patch = version.split('.')
         patch = 0
         minor = int(minor) + 1
-    with open('py_mailinator/_version.py', 'w') as f:
+    with open('pymailinator/_version.py', 'w') as f:
         f.write('__version__ = "%s.%s.%s"' % (major, minor, patch))
-    local('git add py_mailinator/_version.py')
+    local('git add pymailinator/_version.py')
     local('git commit -m "updated version to %s.%s.%s"'% (major, minor, patch))
     local('git tag %s.%s -m "Update for release"' % (major, minor))
     local('git push --tags origin master')
 
 
 def bump_major():
-    with open('py_mailinator/_version.py', 'r') as f:
+    with open('pymailinator/_version.py', 'r') as f:
         original = f.read()
         version = original.split('=')[1].strip('\" \n\'')
         major, minor, patch = version.split('.')
         patch = 0
         minor = 0
         major = int(major) + 1
-    with open('py_mailinator/_version.py', 'w') as f:
+    with open('pymailinator/_version.py', 'w') as f:
         f.write('__version__ = "%s.%s.%s"' % (major, minor, patch))
-    local('git add py_mailinator/_version.py')
+    local('git add pymailinator/_version.py')
     local('git commit -m "updated version to %s.%s.%s"'% (major, minor, patch))
     local('git tag %s.%s -m "Update for release"' % (major, minor))
     local('git push --tags origin master')

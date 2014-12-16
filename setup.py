@@ -1,7 +1,7 @@
 from setuptools import setup
 
 import re
-VERSIONFILE="py_mailinator/_version.py"
+VERSIONFILE="pymailinator/_version.py"
 verstrline = open(VERSIONFILE, "rt").read()
 VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
 mo = re.search(VSRE, verstrline, re.M)
@@ -19,7 +19,7 @@ setup(
     author='Ryan McDevitt',
     author_email='mcdevitt.ryan@gmail.com',
     license='MIT License',
-    packages=['py_mailinator'],
+    packages=['pymailinator'],
     include_package_data=True,
     description='Python API wrapper for mailinator',
     download_url = 'https://github.com/mc706/py-mailinator/tarball/' + release,

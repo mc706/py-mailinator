@@ -19,7 +19,7 @@ Retrieve Inbox
 Get your api key at the mailinator [settings](https://www.mailinator.com/settings.jsp) page.
 
 ```
-from pymaininator import Inbox
+from pymaininator.wrapper import Inbox
 
 inbox = Inbox(api_key)
 inbox.get()
