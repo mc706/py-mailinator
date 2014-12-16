@@ -1,9 +1,10 @@
 py-mailinator
 =============
 
+[![Build Status](https://travis-ci.org/mc706/py-mailinator.svg?branch=master)](https://travis-ci.org/mc706/py-mailinator)
 [![PyPI version](https://badge.fury.io/py/py-mailinator.svg)](http://badge.fury.io/py/py-mailinator)
 [![Code Health](https://landscape.io/github/mc706/py-mailinator/master/landscape.svg)](https://landscape.io/github/mc706/py-mailinator/master)
-[![Build Status](https://travis-ci.org/mc706/py-mailinator.svg?branch=master)](https://travis-ci.org/mc706/py-mailinator)
+[![Coverage Status](https://img.shields.io/coveralls/mc706/py-mailinator.svg)](https://coveralls.io/r/mc706/py-mailinator)
 
 An python wrapper for the mailinator.com api
 
