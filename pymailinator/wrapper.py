@@ -71,6 +71,7 @@ class Inbox:
         self.messages = []
 
     def get(self, mailbox=None, private_domain=False):
+        """Retrieves email from inbox"""
         if not self.token:
             raise MissingToken
         query_string = {'token': self.token}
@@ -86,10 +87,16 @@ class Inbox:
         return self._parse(response)
 
     def count(self):
+        """returns the number of emails in inbox"""
         return len(self.messages)
 
     def view_subjects(self):
+        """returns a list of messages subjects"""
         return [message.subject for message in self.messages]
+
+    def view_message_ids(self):
+        """returns a list of message ids"""
+        return [message.id for message in self.messages]
 
     def _parse(self, data):
         self.messages = []

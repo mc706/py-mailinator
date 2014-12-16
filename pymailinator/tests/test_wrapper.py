@@ -77,6 +77,13 @@ class test_wrapper(unittest.TestCase):
         self.assertEquals(type(inbox.view_subjects()), list)
         self.assertGreater(len(inbox.view_subjects()), 0)
 
+    def test_view_message_ids(self):
+        wrapper.urllib.urlopen = get_mailbox
+        inbox = wrapper.Inbox('123')
+        inbox.get()
+        self.assertEquals(type(inbox.view_message_ids()), list)
+        self.assertGreater(len(inbox.view_message_ids()), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
