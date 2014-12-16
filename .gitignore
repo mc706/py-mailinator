@@ -108,4 +108,6 @@ docs/_build/
 # PyBuilder
 target/
 
+.coveralls.yml
+
 
