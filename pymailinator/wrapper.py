@@ -38,14 +38,11 @@ class Message(object):
         url = self._baseURL + "?" + urllib.urlencode(query_string)
         request = urllib.urlopen(url)
         if request.getcode() == 404:
-            return MessageNotFound
+            raise MessageNotFound
         response = request.read()
         data = json.loads(clean_response(response), strict=False)
         self.headers = data['data']['headers']
         self.body = "".join([part['body'] for part in data['data']['parts']])
-
-    def __unicode__(self):
-        return str(self.subject)
 
 
 class Inbox(object):

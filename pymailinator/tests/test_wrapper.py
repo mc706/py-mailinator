@@ -1,11 +1,13 @@
 import unittest
+import os
 from pymailinator import wrapper
 
 
-class MockResponse():
-    def __init__(self, content=None, status=None, filename=None):
+class MockResponse(object):
+    def __init__(self, url=None, content=None, status=None, filename=None):
         self.content = content
         self.status = status
+        self.url = url
         if filename and not content:
             with open(filename, 'r') as f:
                 self.content = f.read()
@@ -18,26 +20,33 @@ class MockResponse():
 
 
 def get_empty_mailbox(url):
-    return MockResponse(status=200, content='{"messages":[]}')
+    return MockResponse(status=200, content='{"messages":[]}', url=url)
 
 
 def get_bad_api_token(url):
-    return MockResponse(status=400, content='')
+    return MockResponse(status=400, content='', url=url)
+
+
+def get_missing_token(url):
+    return MockResponse(status=404, url=url)
 
 
 def get_missing_message(url):
-    return MockResponse(status=404)
+    return MockResponse(status=404, url=url)
 
 
 def get_mailbox(url):
-    return MockResponse(status=200, filename='json/mailbox.json')
+    filename = os.path.join(os.path.dirname(__file__), 'json', 'mailbox.json')
+    return MockResponse(status=200, filename=filename, url=url)
 
 
 def get_message(url):
-    return MockResponse(status=200, filename='json/message.json')
+    filename = os.path.join(os.path.dirname(__file__), 'json', 'message.json')
+    return MockResponse(status=200, filename=filename, url=url)
 
 
-class test_wrapper(unittest.TestCase):
+# noinspection PyArgumentList
+class TestWrapper(unittest.TestCase):
     def test_empty_mailbox(self):
         wrapper.urllib.urlopen = get_empty_mailbox
         inbox = wrapper.Inbox('123')
@@ -55,6 +64,12 @@ class test_wrapper(unittest.TestCase):
         with self.assertRaises(TypeError):
             wrapper.Inbox()
 
+    def test_invalid_token(self):
+        wrapper.urllib.urlopen = get_missing_token
+        inbox = wrapper.Inbox(False)
+        with self.assertRaises(wrapper.MissingToken):
+            inbox.get()
+
     def test_successful_mailbox(self):
         wrapper.urllib.urlopen = get_mailbox
         inbox = wrapper.Inbox('123')
@@ -69,6 +84,14 @@ class test_wrapper(unittest.TestCase):
         message = inbox.messages[0]
         message.get_message()
         self.assertNotEquals(message.body, '')
+
+    def test_missing_message(self):
+        wrapper.urllib.urlopen = get_mailbox
+        inbox = wrapper.Inbox('123')
+        inbox.get()
+        wrapper.urllib.urlopen = get_missing_message
+        with self.assertRaises(wrapper.MessageNotFound):
+            inbox.messages[0].get_message()
 
     def test_view_subjects(self):
         wrapper.urllib.urlopen = get_mailbox
@@ -91,7 +114,6 @@ class test_wrapper(unittest.TestCase):
         message = inbox.get_message_by_subject('Want to cheat? ')
         self.assertEquals(message.subject, 'Want to cheat? ')
 
-
     def test_get_message_by_id(self):
         wrapper.urllib.urlopen = get_mailbox
         inbox = wrapper.Inbox('123')
@@ -103,10 +125,17 @@ class test_wrapper(unittest.TestCase):
         wrapper.urllib.urlopen = get_mailbox
         inbox = wrapper.Inbox('123')
         inbox.get()
-        filteredMe = inbox.filter('to', 'me')
-        self.assertEquals(len(filteredMe), 0)
+        filtered_me = inbox.filter('to', 'me')
+        self.assertEquals(len(filtered_me), 0)
         filtered = inbox.filter('to', 'm8r-rmtci4@mailinator.com')
         self.assertEquals(len(filtered), 2)
+
+    def test_other_mailbox(self):
+        wrapper.urllib.urlopen = get_mailbox
+        inbox = wrapper.Inbox('123')
+        inbox.get('other')
+        self.assertGreater(inbox.count(), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
