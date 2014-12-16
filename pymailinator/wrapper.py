@@ -98,6 +98,24 @@ class Inbox:
         """returns a list of message ids"""
         return [message.id for message in self.messages]
 
+    def get_message_by_subject(self, subject):
+        """returns a message object with a subject line"""
+        all = [message for message in self.messages if message.subject.lower() == subject.lower()]
+        if len(all) == 0:
+            return None
+        elif len(all) == 1:
+            return all[0]
+        else:
+            return all
+
+    def get_message_by_id(self, id):
+        """returns a message object by id"""
+        all = [message for message in self.messages if message.id == id]
+        if len(all) == 0:
+            return None
+        elif len(all) == 1:
+            return all[0]
+
     def _parse(self, data):
         self.messages = []
         parsed = json.loads(clean_response(data), strict=False)
