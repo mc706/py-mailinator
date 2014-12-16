@@ -16,8 +16,6 @@ class MessageNotFound(Exception):
 
 class Message:
     """Message Object for Mailinator Email API
-
-    Args:
     """
     _baseURL = 'http://api.mailinator.com/api/email'
 
@@ -32,6 +30,8 @@ class Message:
         self.been_read = data['been_read']
         self.fromshort = data['from']
         self.ip = data['ip']
+        self.headers = {}
+        self.body = ""
 
     def get_message(self):
         query_string = {'token': self.token, 'msgid': self.id}
@@ -83,12 +83,12 @@ class Inbox:
         if request.getcode() == 400:
             raise InvalidToken
         response = request.read()
-        return self.parse(response)
+        return self._parse(response)
 
     def count(self):
         return len(self.messages)
 
-    def parse(self, data):
+    def _parse(self, data):
         self.messages = []
         parsed = json.loads(clean_response(data), strict=False)
         for message in parsed['messages']:
@@ -96,18 +96,6 @@ class Inbox:
             self.messages.append(email)
         return self.messages
 
+
 def clean_response(response):
     return response.replace('\r\n', '').decode('utf-8', 'ignore')
-
-if __name__ == '__main__':
-    api_token = "0f70f3c6ec10459c828c29b86799e6b6"
-    inbox = Inbox(api_token)
-    messages = inbox.get('bob')
-    print inbox.count()
-    first = messages[0]
-    print first
-    first.get_message()
-    print first.headers
-    print first.body
-    for header in first.headers:
-        print header, first.headers[header]
