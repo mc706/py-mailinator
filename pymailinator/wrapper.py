@@ -100,21 +100,21 @@ class Inbox(object):
 
     def get_message_by_subject(self, subject):
         """returns a message object with a subject line"""
-        all = [message for message in self.messages if message.subject.lower() == subject.lower()]
-        if len(all) == 0:
+        messages = [message for message in self.messages if message.subject.lower() == subject.lower()]
+        if len(messages) == 0:
             return None
-        elif len(all) == 1:
-            return all[0]
+        elif len(messages) == 1:
+            return messages[0]
         else:
-            return all
+            return messages
 
     def get_message_by_id(self, msgid):
         """returns a message object by id"""
-        all = [message for message in self.messages if message.id == msgid]
-        if len(all) == 0:
+        messages = [message for message in self.messages if message.id == msgid]
+        if len(messages) == 0:
             return None
-        elif len(all) == 1:
-            return all[0]
+        elif len(messages) == 1:
+            return messages[0]
 
     def filter(self, field, value):
         """returns a filtered list of messages by where message.field = value"""
