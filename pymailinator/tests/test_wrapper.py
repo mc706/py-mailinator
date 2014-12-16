@@ -99,6 +99,14 @@ class test_wrapper(unittest.TestCase):
         message = inbox.get_message_by_id('1418740612-3134545-m8r-rmtci4')
         self.assertEquals(message.id, '1418740612-3134545-m8r-rmtci4')
 
+    def test_filter_inbox(self):
+        wrapper.urllib.urlopen = get_mailbox
+        inbox = wrapper.Inbox('123')
+        inbox.get()
+        filteredMe = inbox.filter('to', 'me')
+        self.assertEquals(len(filteredMe), 0)
+        filtered = inbox.filter('to', 'm8r-rmtci4@mailinator.com')
+        self.assertEquals(len(filtered), 2)
 
 if __name__ == '__main__':
     unittest.main()

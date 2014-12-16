@@ -41,6 +41,7 @@ Methods:
 * `view_message_ids()`: run after get. Gets lists of subject lines of inbox
 * `get_message_by_subject(subject)`: takes a subject as a string, returns message or list of messages with that subject
 * `get_message_by_id(id)`: takes an message id as a string, returns the message if it exists
+* `filter(field, value)`: returns list of message objects where message.field == value
 
 ##Message Object
 Methods:

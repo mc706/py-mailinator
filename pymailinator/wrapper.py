@@ -116,6 +116,10 @@ class Inbox:
         elif len(all) == 1:
             return all[0]
 
+    def filter(self, field, value):
+        """returns a filtered list of messages by where message.field = value"""
+        return [message for message in self.messages if getattr(message, field) == value]
+
     def _parse(self, data):
         self.messages = []
         parsed = json.loads(clean_response(data), strict=False)
