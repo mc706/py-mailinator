@@ -1,0 +1,7 @@
+[run]
+branch = False
+
+source = pymailinator
+
+omit =
+    /*/tests/*
