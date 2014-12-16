@@ -37,7 +37,7 @@ print mail.body
 Methods:
 * `get()` : retrieves inbox
 * `count()`: run after get, gets length of inbox
-
+* `view_subjects()`: run after get. Gets lists of subject lines of inbox
 
 ##Message Object
 Methods:

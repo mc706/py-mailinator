@@ -88,6 +88,9 @@ class Inbox:
     def count(self):
         return len(self.messages)
 
+    def view_subjects(self):
+        return [message.subject for message in self.messages]
+
     def _parse(self, data):
         self.messages = []
         parsed = json.loads(clean_response(data), strict=False)
