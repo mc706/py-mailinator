@@ -1,4 +1,5 @@
 import json
+import six
 
 try:
     from urllib.request import urlopen
@@ -132,4 +133,7 @@ class Inbox(object):
 
 
 def clean_response(response):
-    return response.decode('utf-8', 'ignore')
+    if six.PY2:
+        return response.decode('utf-8', 'ignore')
+    else:
+        return response

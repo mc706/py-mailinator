@@ -48,14 +48,14 @@ def get_message(url):
 # noinspection PyArgumentList
 class TestWrapper(unittest.TestCase):
     def test_empty_mailbox(self):
-        wrapper.urllib.urlopen = get_empty_mailbox
+        wrapper.urlopen = get_empty_mailbox
         inbox = wrapper.Inbox('123')
         inbox.get()
         self.assertEqual(inbox.count(), 0)
         self.assertEquals(inbox.messages, [])
 
     def test_bad_token(self):
-        wrapper.urllib.urlopen = get_bad_api_token
+        wrapper.urlopen = get_bad_api_token
         inbox = wrapper.Inbox('123')
         with self.assertRaises(wrapper.InvalidToken):
             inbox.get()
@@ -65,64 +65,64 @@ class TestWrapper(unittest.TestCase):
             wrapper.Inbox()
 
     def test_invalid_token(self):
-        wrapper.urllib.urlopen = get_missing_token
+        wrapper.urlopen = get_missing_token
         inbox = wrapper.Inbox(False)
         with self.assertRaises(wrapper.MissingToken):
             inbox.get()
 
     def test_successful_mailbox(self):
-        wrapper.urllib.urlopen = get_mailbox
+        wrapper.urlopen = get_mailbox
         inbox = wrapper.Inbox('123')
         inbox.get()
         self.assertGreater(inbox.count(), 0)
 
     def test_successful_message(self):
-        wrapper.urllib.urlopen = get_mailbox
+        wrapper.urlopen = get_mailbox
         inbox = wrapper.Inbox('123')
         inbox.get()
-        wrapper.urllib.urlopen = get_message
+        wrapper.urlopen = get_message
         message = inbox.messages[0]
         message.get_message()
         self.assertNotEquals(message.body, '')
 
     def test_missing_message(self):
-        wrapper.urllib.urlopen = get_mailbox
+        wrapper.urlopen = get_mailbox
         inbox = wrapper.Inbox('123')
         inbox.get()
-        wrapper.urllib.urlopen = get_missing_message
+        wrapper.urlopen = get_missing_message
         with self.assertRaises(wrapper.MessageNotFound):
             inbox.messages[0].get_message()
 
     def test_view_subjects(self):
-        wrapper.urllib.urlopen = get_mailbox
+        wrapper.urlopen = get_mailbox
         inbox = wrapper.Inbox('123')
         inbox.get()
         self.assertEquals(type(inbox.view_subjects()), list)
         self.assertGreater(len(inbox.view_subjects()), 0)
 
     def test_view_message_ids(self):
-        wrapper.urllib.urlopen = get_mailbox
+        wrapper.urlopen = get_mailbox
         inbox = wrapper.Inbox('123')
         inbox.get()
         self.assertEquals(type(inbox.view_message_ids()), list)
         self.assertGreater(len(inbox.view_message_ids()), 0)
 
     def test_get_message_by_subject(self):
-        wrapper.urllib.urlopen = get_mailbox
+        wrapper.urlopen = get_mailbox
         inbox = wrapper.Inbox('123')
         inbox.get()
         message = inbox.get_message_by_subject('Want to cheat? ')
         self.assertEquals(message.subject, 'Want to cheat? ')
 
     def test_get_message_by_id(self):
-        wrapper.urllib.urlopen = get_mailbox
+        wrapper.urlopen = get_mailbox
         inbox = wrapper.Inbox('123')
         inbox.get()
         message = inbox.get_message_by_id('1418740612-3134545-m8r-rmtci4')
         self.assertEquals(message.id, '1418740612-3134545-m8r-rmtci4')
 
     def test_filter_inbox(self):
-        wrapper.urllib.urlopen = get_mailbox
+        wrapper.urlopen = get_mailbox
         inbox = wrapper.Inbox('123')
         inbox.get()
         filtered_me = inbox.filter('to', 'me')
@@ -131,7 +131,7 @@ class TestWrapper(unittest.TestCase):
         self.assertEquals(len(filtered), 2)
 
     def test_other_mailbox(self):
-        wrapper.urllib.urlopen = get_mailbox
+        wrapper.urlopen = get_mailbox
         inbox = wrapper.Inbox('123')
         inbox.get('other')
         self.assertGreater(inbox.count(), 0)
