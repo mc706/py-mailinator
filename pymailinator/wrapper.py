@@ -1,5 +1,11 @@
 import json
-import urllib
+import six
+
+try:
+    from urllib.request import urlopen
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlopen, urlencode
 
 
 class InvalidToken(Exception):
@@ -35,8 +41,8 @@ class Message(object):
 
     def get_message(self):
         query_string = {'token': self.token, 'msgid': self.id}
-        url = self._baseURL + "?" + urllib.urlencode(query_string)
-        request = urllib.urlopen(url)
+        url = self._baseURL + "?" + urlencode(query_string)
+        request = urlopen(url)
         if request.getcode() == 404:
             raise MessageNotFound
         response = request.read()
@@ -76,8 +82,8 @@ class Inbox(object):
             query_string.update({'to': mailbox})
         if private_domain:
             query_string.update({'private_domain': json.dumps(private_domain)})
-        url = self._baseURL + '?' + urllib.urlencode(query_string)
-        request = urllib.urlopen(url)
+        url = self._baseURL + '?' + urlencode(query_string)
+        request = urlopen(url)
         if request.getcode() == 400:
             raise InvalidToken
         response = request.read()
@@ -127,4 +133,7 @@ class Inbox(object):
 
 
 def clean_response(response):
-    return response.replace('\r\n', '').decode('utf-8', 'ignore')
+    if six.PY2:
+        return response.decode('utf-8', 'ignore')
+    else:
+        return response
