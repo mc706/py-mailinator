@@ -25,6 +25,9 @@ setup(
     download_url = 'https://github.com/mc706/py-mailinator/tarball/' + release,
     keywords = ['mailinator', 'api', 'email'],
     classifiers = [
+        "Programming Language :: Python :: 2.6",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
         "Intended Audience :: Developers",
