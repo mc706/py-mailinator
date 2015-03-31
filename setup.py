@@ -24,5 +24,15 @@ setup(
     description='Python API wrapper for mailinator',
     download_url = 'https://github.com/mc706/py-mailinator/tarball/' + release,
     keywords = ['mailinator', 'api', 'email'],
-    classifiers = [],
+    classifiers = [
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: Console",
+        "Intended Audience :: Developers",
+        "Intended Audience :: Information Technology",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Topic :: Communications :: Email",
+        "Topic :: Software Development :: Testing",
+        "Topic :: Utilities",
+    ],
 )
