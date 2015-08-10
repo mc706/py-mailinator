@@ -19,6 +19,10 @@ class MessageNotFound(Exception):
     pass
 
 
+class RateLimiterReached(Exception):
+    pass
+
+
 class Message(object):
     """Message Object for Mailinator Email API
     """
@@ -46,7 +50,10 @@ class Message(object):
             raise MessageNotFound
         response = request.read()
         data = json.loads(clean_response(response), strict=False)
-        self.headers = data['data']['headers']
+        if data.get('error', False):
+            if data.get('error').lower() is "rate limiter reached":
+                raise RateLimiterReached
+        self.headers = data.get('data').get('headers')
         self.body = "".join([part['body'] for part in data['data']['parts']])
 
 
