@@ -1,10 +1,14 @@
 import json
+from time import sleep
 
 try:
     from urllib.request import urlopen
     from urllib.parse import urlencode
 except ImportError:
     from urllib import urlopen, urlencode
+
+
+TIME_SLEEP_TOO_MANY_REQUESTS = 1.2
 
 
 class InvalidToken(Exception):
@@ -45,7 +49,7 @@ class Message(object):
     def get_message(self):
         query_string = {'token': self.token, 'msgid': self.id}
         url = self._baseURL + "?" + urlencode(query_string)
-        request = urlopen(url)
+        request = get_request(url)
         if request.getcode() == 404:
             raise MessageNotFound
         response = request.read()
@@ -89,7 +93,7 @@ class Inbox(object):
         if private_domain:
             query_string.update({'private_domain': json.dumps(private_domain)})
         url = self._baseURL + '?' + urlencode(query_string)
-        request = urlopen(url)
+        request = get_request(url)
         if request.getcode() == 400:
             raise InvalidToken
         response = request.read()
@@ -144,3 +148,11 @@ def clean_response(response):
     else:
         return response
 
+
+def get_request(url, sleep_time=.7):
+    while True:
+        request = urlopen(url)
+        if request.getcode() != 429:
+            break
+        sleep(TIME_SLEEP_TOO_MANY_REQUESTS)
+    return request
