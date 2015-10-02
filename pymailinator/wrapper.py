@@ -8,7 +8,7 @@ except ImportError:
     from urllib import urlopen, urlencode
 
 
-TIME_SLEEP_TOO_MANY_REQUESTS = 1.2
+TIME_SLEEP_TOO_MANY_REQUESTS = .7
 
 
 class InvalidToken(Exception):
