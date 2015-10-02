@@ -170,6 +170,11 @@ class TestWrapper(unittest.TestCase):
             mock_server = MockServerTooManyRequests(2, get_message)
             getattr(self, test_func)(message=mock_server.get)
 
+        with self.assertRaises(wrapper.TooManyRequests):
+            wrapper.NUMBER_ATTEMPTS_TOO_MANY_REQUESTS = 3
+            mock_server = MockServerTooManyRequests(4, get_mailbox)
+            self.test_successful_mailbox(mailbox=mock_server.get)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -9,6 +9,11 @@ except ImportError:
 
 
 TIME_SLEEP_TOO_MANY_REQUESTS = .7
+NUMBER_ATTEMPTS_TOO_MANY_REQUESTS = 12
+
+
+class TooManyRequests(Exception):
+    pass
 
 
 class InvalidToken(Exception):
@@ -150,9 +155,11 @@ def clean_response(response):
 
 
 def get_request(url, sleep_time=.7):
-    while True:
+    for i in range(NUMBER_ATTEMPTS_TOO_MANY_REQUESTS):
         request = urlopen(url)
         if request.getcode() != 429:
             break
         sleep(TIME_SLEEP_TOO_MANY_REQUESTS)
+    else:
+        raise TooManyRequests
     return request
