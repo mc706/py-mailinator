@@ -45,7 +45,6 @@ class Message(object):
         self.to = data['to']
         self.seconds_ago = data['seconds_ago']
         self.fromfull = data['fromfull']
-        self.been_read = data['been_read']
         self.fromshort = data['from']
         self.ip = data['ip']
         self.headers = {}
