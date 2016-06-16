@@ -1,5 +1,7 @@
 import unittest
 import os
+from collections import defaultdict
+
 from pymailinator import wrapper
 
 
@@ -174,6 +176,15 @@ class TestWrapper(unittest.TestCase):
             wrapper.NUMBER_ATTEMPTS_TOO_MANY_REQUESTS = 3
             mock_server = MockServerTooManyRequests(4, get_mailbox)
             self.test_successful_mailbox(mailbox=mock_server.get)
+
+    def test_origfrom_field(self):
+        mock_data = defaultdict(str)
+        mock_data['origfrom'] = 'Mock Name <mock@domain.com>'
+        mock_message = wrapper.Message(None, mock_data)
+
+        # Backwards compatible message objects.
+        self.assertEqual(mock_message.fromshort, 'Mock Name')
+        self.assertEqual(mock_message.fromfull, 'mock@domain.com')
 
 
 if __name__ == '__main__':
