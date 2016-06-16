@@ -1,5 +1,6 @@
 import json
 from time import sleep
+from email.utils import parseaddr, formataddr
 
 try:
     from urllib.request import urlopen
@@ -44,9 +45,18 @@ class Message(object):
         self.time = data['time']
         self.to = data['to']
         self.seconds_ago = data['seconds_ago']
-        self.fromfull = data['fromfull']
-        self.fromshort = data['from']
         self.ip = data['ip']
+
+        try:
+            self.origfrom = data['origfrom']
+            # Support old Message attributes
+            self.fromshort, self.fromfull = parseaddr(self.origfrom)
+        except KeyError:
+            # Try the old data model
+            self.fromfull = data['fromfull']
+            self.fromshort = data['from']
+            self.origfrom = formataddr((self.fromshort, self.fromfull))
+
         self.headers = {}
         self.body = ""
 

@@ -55,8 +55,7 @@ Attributes:
 * `subject` : message subject line
 * `time` : message delivery time
 * `seconds_ago` : number of seconds between time of delivery and time of request
-* `fromshort` : short from field
-* `fromfull`: full from field
+* `origfrom` : Original from field
 * `ip` : ip address the email was sent from
 * `been_read` : boolean if messsage has been opened
 * `headers` : only available after `get_message()`, shows the message headers
