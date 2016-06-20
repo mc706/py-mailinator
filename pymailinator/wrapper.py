@@ -45,7 +45,7 @@ class Message(object):
         self.time = data['time']
         self.to = data['to']
         self.seconds_ago = data['seconds_ago']
-        self.ip = data['ip']
+        self.ip = data.get('ip')
 
         try:
             self.origfrom = data['origfrom']
