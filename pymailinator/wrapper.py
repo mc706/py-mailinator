@@ -40,11 +40,11 @@ class Message(object):
 
     def __init__(self, token, data):
         self.token = token
-        self.id = data['id']
-        self.subject = data['subject']
-        self.time = data['time']
-        self.to = data['to']
-        self.seconds_ago = data['seconds_ago']
+        self.id = data.get('id', None)
+        self.subject = data.get('subject', None)
+        self.time = data.get('time', None)
+        self.to = data.get('to', None)
+        self.seconds_ago = data.get('seconds_ago', None)
         self.ip = data.get('ip')
 
         try:
@@ -53,8 +53,8 @@ class Message(object):
             self.fromshort, self.fromfull = parseaddr(self.origfrom)
         except KeyError:
             # Try the old data model
-            self.fromfull = data['fromfull']
-            self.fromshort = data['from']
+            self.fromfull = data.get('fromfull')
+            self.fromshort = data.get('from')
             self.origfrom = formataddr((self.fromshort, self.fromfull))
 
         self.headers = {}
