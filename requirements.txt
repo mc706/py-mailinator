@@ -1,5 +1,5 @@
 Fabric==1.10.0
-PyYAML==3.11
+PyYAML==5.4
 cov-core==1.15.0
 coverage==3.7.1
 ecdsa==0.11
